@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Line Chart</title>
+	<script src="Chart.bundle.js"></script>
+	<script src="utils.js"></script>
+	<style>
+	canvas{
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	.chart-container {
+		width: 500px;
+		margin-left: 40px;
+		margin-right: 40px;
+		margin-bottom: 40px;
+	}
+	.container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+	</div>
+	<script>
+		function createConfig(pointStyle) {
+			return {
+				type: 'line',
+				data: {
+					labels: ['2015', '2016', '2017', '2018'],
+					datasets: [{
+						label: 'My First dataset',
+						backgroundColor: window.chartColors.red,
+						borderColor: window.chartColors.red,
+						data: [190, 150, 170, 230],
+						fill: 1,
+						pointRadius: 10,
+						pointHoverRadius: 15,
+						showLine: false // no line shown
+					}]
+				},
+				options: {
+					responsive: true,
+					title: {
+						display: true,
+						text: 'Mark: Year2015-Year2018 ' 
+					},
+					legend: {
+						display: false
+					},
+					elements: {
+						point: {
+							pointStyle: pointStyle
+						}
+					}
+				}
+			};
+		}
+
+		window.onload = function() {
+			var container = document.querySelector('.container');
+			[	
+				'rectRot',
+				
+			].forEach(function(pointStyle) {
+				var div = document.createElement('div');
+				div.classList.add('chart-container');
+
+				var canvas = document.createElement('canvas');
+				div.appendChild(canvas);
+				container.appendChild(div);
+
+				var ctx = canvas.getContext('2d');
+				var config = createConfig(pointStyle);
+				new Chart(ctx, config);
+			});
+		};
+	</script>
+</body>
+
+</html>
