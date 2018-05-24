@@ -1,0 +1,18 @@
+
+.right
+        {
+            float: left;
+            width: 40%;
+            height: 100%;
+            text-align: center;
+
+        }
+#map
+        {
+            width: 59%;
+            height: 100%;
+            float: left;
+        }
+
+form
+        {line-height:5em;}
