@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Line Chart</title>
+        <script src="Chart.bundle.js"></script>
+        <meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
+        <style>
+          
+        </style>
+    </head>
+    <body>
+    <div style="width:700px;height:700px;">
+    <canvas id="myChart" width="1" height="1"></canvas>
+    </div>
+<script>
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["School1", "School2", "School3", "School4", "School5"],
+        datasets: [{
+            label: 'Scores',
+            data: [2, 7, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)' 
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)'  
+                
+            ],
+            borderWidth: 0.5
+        },{
+            label: 'Crime rate',
+            data: [3, 6, 8, 1, 2, 7],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)'
+                
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)'
+                
+            ],
+            borderWidth: 0.5
+        },{
+            label: 'Distance',
+            data: [1, 2, 4, 9, 3, 1],
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+                
+            ],
+            borderColor: [
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)'
+               
+            ],
+            borderWidth: 0.5
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+
+});
+</script>
+    </body>
+</html>
