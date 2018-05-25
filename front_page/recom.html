@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <link rel="stylesheet" href="/static/css/recom.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+        <h1 align="center">School Recommendation</h1>
+        <title>School Details</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+</head>
+<body>
+<div class = "container">
+     <div class="container">
+            <div class = "left">
+                <div id="map"></div>
+            </div>
+            <div class = "right"></div>
+</div>
+</body>
+
+<script>
+            var points = JSON.parse('{{ schools | safe }}');
+            var map;
+
+            function initMap() {
+                var latitude = -33.865143;
+                var longitude = 151.209900;
+                var myLatLng = {lat: latitude, lng: longitude};
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 14,
+                    disableDoubleClickZoom: true,
+                });
+                var bounds  = new google.maps.LatLngBounds();
+                var marker;
+                for (var i = 0; i < points.length; i++) {
+                    //alert(points[i].lan + ',' + points[i].long);
+                    marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(points[i].lan, points[i].long),
+                    map: map
+                });
+                    var loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+                    bounds.extend(loc);
+
+    }
+                map.fitBounds(bounds);
+                map.panToBounds(bounds);
+            }
+        </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXTdv6iq0Vd7NntXWnTf1nTIZoGBMjNOY&callback=initMap"
+        async defer></script>
+</html>
