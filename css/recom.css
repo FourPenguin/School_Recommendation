@@ -1,0 +1,21 @@
+html {
+    height: 100%;
+}
+.right
+        {
+            float: left;
+            width: 40%;
+            height: 100%;
+            text-align: center;
+
+        }
+#map
+        {
+            width: 50%;
+            height:700px;
+            float: left;
+        }
+
+h1 {
+    color: deepskyblue;
+}
