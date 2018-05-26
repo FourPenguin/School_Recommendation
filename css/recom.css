@@ -15,7 +15,12 @@ html {
             height:700px;
             float: left;
         }
-
+#myChart
+        {
+            width: 100px;
+            height:50px;
+            float: right;
+        }
 h1 {
     color: deepskyblue;
 }
