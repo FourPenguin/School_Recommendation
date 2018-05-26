@@ -3,7 +3,7 @@
         <link rel="stylesheet" href="/static/css/index.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
-        <title>Google Map</title>
+        <title>School Recommendation</title>
         <h1 align="center">School Recommendation</h1>
         <meta name="viewport" content="initial-scale=1.0">
         <meta charset="utf-8">
@@ -17,7 +17,7 @@
             <div id="map">
             </div>
             <div class = "right">
-                    <form action= {{url_for('index')}} >
+                    <form action= {{url_for('recom')}} method="post" >
                         <label for="Latitude">Latitude:</label>
                         <input type="text" id="Latitude" name="Latitude" ><br>
                         <label for="Longitude">Longtitude:</label>
@@ -32,6 +32,7 @@
         </div>
         </div>
     </body>
+
     <script type="text/javascript">
             var map;
             var marker;
@@ -111,6 +112,9 @@
                       window.alert('Geocoder failed due to: ' + status);
                   }
               });
+          } else  {
+              $("#Latitude").val("123");
+              $("#Longitude").val("456");
           }
 });
     </script>

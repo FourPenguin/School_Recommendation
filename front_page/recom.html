@@ -6,6 +6,7 @@
         <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
         <h1 align="center">School Recommendation</h1>
         <title>School Details</title>
+        <script src="/static/css/Chart.bundle.js"></script>
         <meta name="viewport" content="initial-scale=1.0">
         <meta charset="utf-8">
 </head>
@@ -15,14 +16,26 @@
             <div class = "left">
                 <div id="map"></div>
             </div>
-            <div class = "right"></div>
+            <div class = "right">
+                <div class = "result_re">
+                {% for school in result %}
+                    <p>{{school.school_name}} {{school.total_rate}}</p>
+                {% endfor %}
+                </div>
+                <div class = "chart_graph">
+                     <div>
+                     <canvas id="myChart" width="1" height="1"></canvas>
+                        </div>
+                </div>
+            </div>
+</div>
 </div>
 </body>
 
 <script>
             var points = JSON.parse('{{ schools | safe }}');
+            var average_school = JSON.parse('{{ avr_rate  | safe }}');
             var map;
-
             function initMap() {
                 var latitude = -33.865143;
                 var longitude = 151.209900;
@@ -37,16 +50,124 @@
                 for (var i = 0; i < points.length; i++) {
                     //alert(points[i].lan + ',' + points[i].long);
                     marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(points[i].lan, points[i].long),
+                    position: new google.maps.LatLng(points[i].latitude, points[i].longitude),
                     map: map
                 });
                     var loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
                     bounds.extend(loc);
-
-    }
+                }
                 map.fitBounds(bounds);
                 map.panToBounds(bounds);
             }
+
+            var score_rate = [];
+            var crime_rate = [];
+            var dis_rate = [];
+            var school_name = [];
+            for (var i = 0; i<points.length; i++){
+                 score_rate.push(points[i].score_rate);
+                 crime_rate.push(points[i].crime_rate);
+                 dis_rate.push(points[i].distance_rate);
+                 school_name.push(points[i].school_name);
+            }
+
+            school_name.push("average")
+            score_rate.push(average_school[0].score_average);
+            crime_rate.push(average_school[0].crime_average);
+            dis_rate.push(average_school[0].distance_average);
+            var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels:school_name,
+        datasets: [{
+            label: 'Scores',
+            data: score_rate,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)'
+
+            ],
+            borderWidth: 0.5
+        },{
+            label: 'Crime rate',
+            data: crime_rate,
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)'
+
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)'
+
+            ],
+            borderWidth: 0.5
+        },{
+            label: 'Distance',
+            data: dis_rate,
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(255, 206, 86, 0.5)'
+
+            ],
+            borderColor: [
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)'
+
+            ],
+            borderWidth: 0.5
+        }]
+    },
+    options: {
+        scales: {
+             xAxes: [{
+        stacked: false,
+        ticks: {
+            stepSize: 1,
+            min: 0,
+            autoSkip: false
+        }
+        }],
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+
+});
+
+
         </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXTdv6iq0Vd7NntXWnTf1nTIZoGBMjNOY&callback=initMap"
         async defer></script>
