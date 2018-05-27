@@ -7,15 +7,13 @@ class Crime_info(EmbeddedDocument):
     total = StringField()
     rate = StringField()
     rank = StringField()
-    score = IntField()
 
-    def __init__(self,year = None, total = None,rate = None, rank = None, score = None , *args, **values):
+    def __init__(self,year = None, total = None,rate = None, rank = None,  *args, **values):
         super().__init__(*args, **values)
         self.year = year
         self.total = total
         self.rate = rate
         self.rank = rank
-        self.score = score
 
 class Details(EmbeddedDocument):
     average_score = StringField()
@@ -32,7 +30,7 @@ class Details(EmbeddedDocument):
     score = ListField()
     crime_info = ListField(EmbeddedDocumentField(Crime_info))
 
-    def __init__(self,fax = None,phone = None, average_crime = None,average_score = None, postcode = None, surb_name = None, longitude = None, latitude = None, email = None, LGA = None, popu_density = None, crime_info = None,*args, **values):
+    def __init__(self,fax = None,phone = None, average_crime = None,average_score = None, postcode = None, surb_name = None, longitude = None, latitude = None, email = None, LGA = None, popu_density = None, score = [], crime_info = None,*args, **values):
         super().__init__(*args, **values)
         self.fax = fax
         self.phone = phone
@@ -44,6 +42,7 @@ class Details(EmbeddedDocument):
         self.LGA = LGA
         self.popu_density = popu_density
         self.crime_info = crime_info
+        self.score = score
         self.average_crime = average_crime
         self.average_score = average_score
 
@@ -138,3 +137,30 @@ def get_top5(location,p1,p2,p3):
     sort_all = sort_all[:5]
     sort_all = json.dumps(sort_all, indent=4)
     return [sort_all, result[1]]
+
+
+def get_school_dict(name):
+    need = dict()
+    for i in Selective.objects:
+        if i.school_name == name:
+            for j in i.school_info:
+                need['fax'] = j.fax
+                need['phone'] = j.phone
+                need['email'] = j.email
+                need['LGA'] = j.LGA
+                need['suburb_name'] = j.surb_name
+                need['postcode'] = j.postcode
+                need['longitude'] = j.longitude
+                need['latitude'] = j.latitude
+                need['population_density'] = j.popu_density
+                need['average_score'] = j.average_score
+                need['average_crime'] = j.average_crime
+                need['score'] = j.score
+                for k in j.crime_info:
+                    need['crime_information'] = dict()
+                    need['crime_information']['year'] = k.year
+                    need['crime_information']['total'] = k.total
+                    need['crime_information']['rate'] = k.rate
+                    need['crime_information']['rank'] = k.rank
+    return need
+
