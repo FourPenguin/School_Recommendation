@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+    <head>
+         <link rel="stylesheet" href="/static/css/details.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+        <h1 align="center" class="jumbotron">{{detail_school_name}}</h1>
+        <title>School Details</title>
+        <script src="/static/css/Chart.bundle.js"></script>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+    </head>
+    <body>
+
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Suburb_name: {{detail_school.suburb_name}}<br/>
+
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Postcode: {{detail_school.postcode}}<br/>
+
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fax: {{detail_school.fax}}<br/>
+
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phone: {{detail_school.phone}}<br/>
+
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E-mail: {{detail_school.email}}<br/>
+    <div style="width:500px;height:500px;">
+    <canvas id="myChart" width="0.6" height="0.6"></canvas>
+    </div>
+    </body>
+<script>
+    var points = JSON.parse('{{ json_school  | safe }}');
+    var score = points.score;
+    var crime_info  = points.crime_information;
+    var year = [];
+    var total = [];
+    var rate = [];
+    var rank = [];
+
+    for (var i=0; i<crime_info.length; i++){
+        year.push(crime_info[i].year);
+        total.push(crime_info[i].total)
+        rate.push(crime_info[i].rate)
+        rank.push(crime_info[i].rank)
+
+    }
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["2015", "2016", "2017", "2018"],
+            datasets: [{
+                label: 'Scores',
+                data: score,
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(255, 99, 132, 0.5)'
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)',
+                'rgba(255,99,132,1)'
+            ],
+            borderWidth: 0.5
+        },{
+            label: 'Crime rate',
+            data: rate,
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 0.5
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+
+});
+</script>
+
+    </body>
+</html>
