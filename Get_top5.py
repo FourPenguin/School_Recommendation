@@ -156,11 +156,12 @@ def get_school_dict(name):
                 need['average_score'] = j.average_score
                 need['average_crime'] = j.average_crime
                 need['score'] = j.score
+                need['crime_information'] = []
                 for k in j.crime_info:
-                    need['crime_information'] = dict()
-                    need['crime_information']['year'] = k.year
-                    need['crime_information']['total'] = k.total
-                    need['crime_information']['rate'] = k.rate
-                    need['crime_information']['rank'] = k.rank
+                    temp = dict()
+                    temp['year'] = k.year
+                    temp['total'] = k.total
+                    temp['rate'] = k.rate
+                    temp['rank'] = k.rank
+                    need['crime_information'].append(temp)
     return need
-
